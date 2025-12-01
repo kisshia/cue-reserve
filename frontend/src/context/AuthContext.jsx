@@ -22,47 +22,73 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    // Dummy login - replace with actual API call
-    // Admin credentials: admin@cuereserve.com / admin123
-    // User credentials: user@example.com / user123
-    
-    let mockUser;
-    
-    if (email === 'admin@cuereserve.com' && password === 'admin123') {
-      mockUser = {
-        id: 1,
-        name: 'Admin User',
-        email: email,
-        role: 'admin',
-      };
-    } else if (email === 'user@example.com' && password === 'user123') {
-      mockUser = {
-        id: 2,
-        name: 'John Doe',
-        email: email,
-        role: 'customer',
-      };
-    } else {
-      throw new Error('Invalid credentials');
-    }
+    try {
+      const response = await fetch('http://localhost:4000/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    setUser(mockUser);
-    localStorage.setItem('user', JSON.stringify(mockUser));
-    localStorage.setItem('token', 'dummy-jwt-token');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Login failed');
+      }
+
+      const data = await response.json();
+
+      const userData = {
+        id: data.user.id,
+        name: data.user.name,
+        email: data.user.email,
+        role: data.user.role || 'user',
+      };
+
+      setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+      localStorage.setItem('token', data.token);
+    } catch (error) {
+      throw error;
+    }
   };
 
   const register = async (name, email, password) => {
-    // Dummy registration - replace with actual API call
-    const mockUser = {
-      id: Date.now(),
-      name,
-      email,
-      role: 'customer',
-    };
+    try {
+      console.log('Attempting to register:', { name, email });
+      const response = await fetch('http://localhost:4000/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
 
-    setUser(mockUser);
-    localStorage.setItem('user', JSON.stringify(mockUser));
-    localStorage.setItem('token', 'dummy-jwt-token');
+      console.log('Response status:', response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Registration error:', errorData);
+        throw new Error(errorData.error || 'Registration failed');
+      }
+
+      const data = await response.json();
+      console.log('Registration successful:', data);
+
+      const userData = {
+        id: data.user.id,
+        name: data.user.name,
+        email: data.user.email,
+        role: data.user.role || 'user',
+      };
+
+      setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+      localStorage.setItem('token', data.token);
+    } catch (error) {
+      console.error('Registration caught error:', error);
+      throw error;
+    }
   };
 
   const logout = () => {

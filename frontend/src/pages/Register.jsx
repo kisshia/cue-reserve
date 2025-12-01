@@ -37,7 +37,9 @@ const Register = () => {
       toast.success('Account created successfully!');
       navigate('/tables');
     } catch (error) {
-      toast.error(error.message || 'Registration failed');
+      console.error('Registration error in Register.jsx:', error);
+      const errorMsg = error.message || error.toString();
+      toast.error(errorMsg || 'Registration failed');
     } finally {
       setIsLoading(false);
     }
