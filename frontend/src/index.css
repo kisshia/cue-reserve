@@ -1,0 +1,183 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 95%;
+
+    --card: 143 20% 12%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 143 20% 12%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 163 50% 55%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 167 28% 20%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 143 18% 15%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 163 50% 55%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 167 28% 18%;
+    --input: 167 28% 18%;
+    --ring: 163 50% 55%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 0%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 163 50% 55%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 143 20% 12%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 167 28% 18%;
+    --sidebar-ring: 163 50% 55%;
+
+    --success: 163 50% 55%;
+    --warning: 38 92% 50%;
+    --info: 202 50% 60%;
+
+    --status-available: 158 64% 52%;
+    --status-occupied: 0 84% 71%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(163 50% 55%), hsl(163 60% 65%));
+    --gradient-hero: linear-gradient(180deg, hsl(0 0% 0%) 0%, hsl(143 20% 12%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(143 20% 12%), hsl(167 28% 15%));
+    
+    /* Shadows & Glows */
+    --shadow-glow: 0 0 60px hsl(163 50% 55% / 0.6), 0 0 100px hsl(163 50% 55% / 0.3);
+    --shadow-elevated: 0 20px 80px -15px hsl(163 50% 55% / 0.4), 0 0 40px hsl(163 50% 55% / 0.2);
+    --shadow-soft: 0 8px 40px hsl(163 50% 55% / 0.15);
+  }
+
+  .dark {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 98%;
+
+    --card: 143 25% 10%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 143 25% 10%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 163 60% 60%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 167 28% 18%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 143 20% 13%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 163 60% 60%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 167 28% 15%;
+    --input: 167 28% 15%;
+    --ring: 163 60% 60%;
+
+    --sidebar-background: 0 0% 0%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 163 60% 60%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 143 25% 10%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 167 28% 15%;
+    --sidebar-ring: 163 60% 60%;
+
+    --success: 163 60% 60%;
+    --warning: 38 92% 50%;
+    --info: 202 60% 65%;
+
+    --status-available: 158 64% 52%;
+    --status-occupied: 0 84% 71%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(163 60% 60%), hsl(163 70% 70%));
+    --gradient-hero: linear-gradient(180deg, hsl(0 0% 0%) 0%, hsl(143 25% 10%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(143 25% 10%), hsl(167 28% 13%));
+    
+    /* Shadows & Glows */
+    --shadow-glow: 0 0 80px hsl(163 60% 60% / 0.7), 0 0 120px hsl(163 60% 60% / 0.4);
+    --shadow-elevated: 0 20px 100px -15px hsl(163 60% 60% / 0.5), 0 0 60px hsl(163 60% 60% / 0.3);
+    --shadow-soft: 0 8px 50px hsl(163 60% 60% / 0.2);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes parallax {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-20px); }
+}
+
+@keyframes neon-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.5), 0 0 40px hsl(var(--primary) / 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.7), 0 0 60px hsl(var(--primary) / 0.5);
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(30px, -30px) rotate(5deg); }
+  66% { transform: translate(-20px, 20px) rotate(-5deg); }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-roboto;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bebas tracking-wide;
+  }
+}
