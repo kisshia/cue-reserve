@@ -26,7 +26,7 @@ CREATE TABLE `users` (
 CREATE TABLE `tables` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `table_number` INT(11) NOT NULL,
-  `status` ENUM('available','occupied','reserved','maintenance') DEFAULT 'available',
+  `status` ENUM('available','unavailable') DEFAULT 'available',
   `createdAt` DATETIME NOT NULL,
   `updatedAt` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
@@ -41,7 +41,7 @@ CREATE TABLE `reservations` (
   `date` DATE NOT NULL,
   `time_start` TIME NOT NULL,
   `time_end` TIME NOT NULL,
-  `status` ENUM('pending','confirmed','cancelled','completed') DEFAULT 'pending',
+  `status` ENUM('confirmed','cancelled') DEFAULT 'confirmed',
   `userId` INT(11) NOT NULL,
   `tableId` INT(11) NOT NULL,
   `createdAt` DATETIME NOT NULL,

@@ -21,8 +21,18 @@ const Login = () => {
 
     try {
       await login(email, password);
-      toast.success('Login successful!');
-      navigate('/tables');
+      
+      // Check user role after login
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      console.log('Login - stored user:', storedUser);
+      
+      if (storedUser && storedUser.role === 'admin') {
+        toast.success('Admin login detected! Redirecting to admin panel...');
+        window.location.href = '/admin';
+      } else {
+        toast.success('Login successful!');
+        navigate('/tables');
+      }
     } catch (error) {
       toast.error(error.message || 'Invalid credentials');
     } finally {

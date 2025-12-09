@@ -11,6 +11,7 @@ import { dummyTables } from '@/utils/dummyData';
 import { TIME_SLOTS, DURATION_OPTIONS, ADDONS } from '@/utils/constants';
 import { ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
+import api from '@/utils/api';
 
 const Booking = () => {
   const { id } = useParams();
@@ -21,6 +22,7 @@ const Booking = () => {
   const [timeSlot, setTimeSlot] = useState('');
   const [duration, setDuration] = useState('2');
   const [selectedAddons, setSelectedAddons] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!table) {
     return (
@@ -48,7 +50,7 @@ const Booking = () => {
     return tableTotal + addonsTotal;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!date || !timeSlot) {
@@ -56,19 +58,57 @@ const Booking = () => {
       return;
     }
 
-    // Store booking details in session storage
-    const bookingData = {
-      tableId: table.id,
-      tableName: table.name,
-      date: date.toISOString().split('T')[0],
-      timeSlot,
-      duration: Number(duration),
-      addons: selectedAddons,
-      total: calculateTotal(),
-    };
-    
-    sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
-    navigate('/payment');
+    setIsLoading(true);
+    try {
+      // Parse time slot to get start and end times
+      const [startTime] = timeSlot.split(' - ');
+      const [startHour] = startTime.split(':');
+      const endHour = String(Number(startHour) + Number(duration)).padStart(2, '0');
+      const endTime = `${endHour}:00`;
+
+      // Format date without timezone conversion
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const formattedDate = `${year}-${month}-${day}`;
+
+      // Check availability
+      const response = await api.get('/reservations/check-availability', {
+        params: {
+          tableId: table.id,
+          date: formattedDate,
+          time_start: `${startTime}:00`,
+          time_end: `${endTime}:00`
+        }
+      });
+
+      if (!response.data.available) {
+        toast.error('This table is not available for the selected date and time');
+        setIsLoading(false);
+        return;
+      }
+
+      // Store booking details in session storage
+      const bookingData = {
+        tableId: table.id,
+        tableName: table.name,
+        date: formattedDate,
+        timeSlot,
+        startTime: `${startTime}:00`,
+        endTime: `${endTime}:00`,
+        duration: Number(duration),
+        addons: selectedAddons,
+        total: calculateTotal(),
+      };
+      
+      sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
+      navigate('/payment');
+    } catch (error) {
+      console.error('Error checking availability:', error);
+      toast.error('Failed to check table availability');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -161,8 +201,8 @@ const Booking = () => {
                     ))}
                   </div>
 
-                  <Button type="submit" className="w-full" size="lg">
-                    Proceed to Payment
+                  <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+                    {isLoading ? 'Checking availability...' : 'Proceed to Payment'}
                   </Button>
                 </form>
               </CardContent>

@@ -6,6 +6,7 @@ const router = express.Router();
 
 // Protected routes (must come before /:id to avoid conflicts)
 router.get('/my-reservations', authenticate, reservationController.getUserReservations);
+router.get('/check-availability', reservationController.checkAvailability);
 
 // Public routes
 router.get('/', reservationController.getAllReservations);

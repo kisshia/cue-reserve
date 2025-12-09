@@ -9,25 +9,18 @@ const TableCard = ({ id, name, type, status, capacity, hourlyRate, image }) => {
   const navigate = useNavigate();
 
   const getStatusColor = (status) => {
-    switch (status) {
-      case 'Available':
+    const statusLower = status?.toLowerCase();
+    switch (statusLower) {
       case 'available':
         return 'bg-[#34d399] text-white';
-      case 'Occupied':
-      case 'occupied':
+      case 'unavailable':
         return 'bg-[#f87171] text-white';
-      case 'Reserved':
-      case 'reserved':
-        return 'bg-warning text-white';
-      case 'Maintenance':
-      case 'maintenance':
-        return 'bg-muted text-muted-foreground';
       default:
         return 'bg-muted';
     }
   };
 
-  const isAvailable = status === 'Available' || status === 'available';
+  const isAvailable = status?.toLowerCase() === 'available';
 
   return (
     <Card className={cn(

@@ -23,10 +23,10 @@ const AdminDashboard = () => {
               description="Active reservations today"
             />
             <StatCard
-              title="Tables Occupied"
+              title="Tables Unavailable"
               value={`${dummyStats.currentOccupancy}/${dummyStats.totalTables}`}
               icon={Table2}
-              description="Current occupancy"
+              description="Currently unavailable tables"
             />
             <StatCard
               title="Today's Revenue"

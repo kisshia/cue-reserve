@@ -21,9 +21,23 @@ const AdminLogin = () => {
 
     try {
       await login(email, password);
-      toast.success('Admin login successful!');
-      navigate('/admin');
+      
+      // Get user from localStorage (set by login function)
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      console.log('Admin login - stored user:', storedUser);
+      
+      if (storedUser && storedUser.role === 'admin') {
+        toast.success('Admin login successful! Redirecting to admin panel...');
+        // Force navigation with replace to ensure clean state
+        window.location.href = '/admin';
+      } else {
+        toast.error('Access denied. Admin credentials required.');
+        // Log out non-admin users
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+      }
     } catch (error) {
+      console.error('Admin login error:', error);
       toast.error(error.message || 'Invalid admin credentials');
     } finally {
       setIsLoading(false);

@@ -8,17 +8,13 @@ export const TABLE_TYPES = {
 // Table status
 export const TABLE_STATUS = {
   AVAILABLE: 'Available',
-  OCCUPIED: 'Occupied',
-  RESERVED: 'Reserved',
-  MAINTENANCE: 'Maintenance',
+  UNAVAILABLE: 'Unavailable',
 };
 
 // Booking status
 export const BOOKING_STATUS = {
-  PENDING: 'Pending',
   CONFIRMED: 'Confirmed',
   CANCELLED: 'Cancelled',
-  COMPLETED: 'Completed',
 };
 
 // Payment methods

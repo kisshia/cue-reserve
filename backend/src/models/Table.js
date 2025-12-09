@@ -13,7 +13,7 @@ const Table = sequelize.define('Table', {
     allowNull: false
   },
   status: {
-    type: DataTypes.ENUM('available', 'occupied', 'reserved', 'maintenance'),
+    type: DataTypes.ENUM('available', 'unavailable'),
     defaultValue: 'available'
   }
 }, {
